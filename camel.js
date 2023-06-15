@@ -4,11 +4,11 @@
  * */
 
 let allSelected = false;
+let isHidden = false;
 
 // Hide full courses from results
 function hideFullCourses() {
   const coll = document.getElementsByClassName("bwckschd_det");
-  const toDel = [];
 
   for (let i = 0; i < coll.length; i += 19) {
 
@@ -18,15 +18,25 @@ function hideFullCourses() {
 
     if (xlCap.innerText != 0) { //When the course has XL seating
       if (parseInt(xlRemaining.innerText) <= 0) {
-        toDel.push(xlRemaining.parentElement)
+        if (isHidden) {
+          xlRemaining.parentElement.style.display = ""
+        } else {
+          xlRemaining.parentElement.style.display = "none"
+        }
       }
     } else if (parseInt(genRemaining.innerText) <= 0) {
-      toDel.push(genRemaining.parentElement)
+      if (isHidden) {
+        genRemaining.parentElement.style.display = ""
+      } else {
+        genRemaining.parentElement.style.display = "none"
+      }
     }
   }
 
-  for (let i = 0; i < toDel.length; i += 1) {
-    toDel[i].remove();
+  if (isHidden) {
+    isHidden = false;
+  } else {
+    isHidden = true;
   }
 }
 
@@ -55,18 +65,40 @@ function selectAllCourses() {
   }
 }
 
+function addHideFullCourseButton() {
+  const button = document.createElement("button")
+  const label = document.createElement("label")
+
+  button.setAttribute("data", "test");
+  button.setAttribute("id", "hideFull");
+  button.setAttribute("class", "camelUtilsSA");
+  button.innerText = "Hide full courses"
+
+  document.getElementsByClassName("infotextdiv")[0].after(button);
+
+  const selectElement = document.querySelector(".camelUtilsSA");
+  selectElement.addEventListener('click', (event) => {
+    console.log("Hiding full courses")
+    hideFullCourses();
+  })
+}
+
+
+
+// Select all subjects
 function addSelectAllButton() {
   const input = document.createElement("input")
   const label = document.createElement("label")
 
   input.setAttribute("type", "checkbox");
-  input.setAttribute("id", "checkAll");
+  input.setAttribute("id", "hideFull");
   input.setAttribute("class", "camelUtilsSA");
 
   label.setAttribute("for", "checkAll");
+
   label.innerText = "Select all departments";
 
-  document.getElementsByClassName("dataentrytable")[0].after(input);
+  document.getElementsByClassName("data").after(input);
   document.getElementsByClassName("camelUtilsSA")[0].after(label);
 
   const selectElement = document.querySelector(".camelUtilsSA");
@@ -85,7 +117,7 @@ hideAlertBoxes(); //All pages
 
 //Course listing 
 if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckschd.p_get_crse_unsec") {
-  hideFullCourses();
+  addHideFullCourseButton();
   console.log("Hid courses")
 } //Search Options Page
 else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckgens.p_proc_term_date") {
