@@ -11,17 +11,16 @@ const inputHandler = function(e) {
 }
 
 function saveOptions(e, c, num) {
-  console.log(c)
-  console.log(num)
+  var obj = {}
+  obj[c] = num
+  console.log(obj)
   //e.preventDefault();
-  browser.storage.sync.set({
-    c: num
-  });
+  browser.storage.sync.set(obj);
 }
 
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector("#c1").value = result.value || "blue";
+    document.getElementById(Object.keys(result)[0]).value = result[Object.keys(result)[0]] || "";
   }
 
   function onError(error) {
@@ -29,7 +28,15 @@ function restoreOptions() {
   }
 
   let getting = browser.storage.sync.get("c1");
-  console.log("c1");
+  getting.then(setCurrentChoice, onError);
+
+  getting = browser.storage.sync.get("c2");
+  getting.then(setCurrentChoice, onError);
+
+  getting = browser.storage.sync.get("c3");
+  getting.then(setCurrentChoice, onError);
+
+  getting = browser.storage.sync.get("c4");
   getting.then(setCurrentChoice, onError);
 }
 
