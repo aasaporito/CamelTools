@@ -141,6 +141,6 @@ else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwskfreg.P_AltPin") {
   c = browser.storage.sync.get("c4");
   c.then(setValue);
   //todo this needs a toggle of some sort, or else it will happen repeatedly
-  document.getElementsByName("REG_BTN")[1].click()
+  //document.getElementsByName("REG_BTN")[1].click()
 
 }
