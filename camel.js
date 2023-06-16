@@ -127,7 +127,8 @@ if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckschd.p_get_crse_unsec") {
 else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckgens.p_proc_term_date") {
   addSelectAllButton(); 
 } //Course registration page 
-else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwskfreg.P_AltPin") {
+else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwskfreg.P_AltPin"
+  && document.getElementById("pagetitle").innerText == "Add/Drop Classes") {
 
   let c = browser.storage.sync.get("c1");
   c.then(setValue);
