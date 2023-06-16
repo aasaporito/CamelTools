@@ -107,7 +107,11 @@ function addSelectAllButton() {
     selectAllCourses();
   })
 }
+function setValue(c) {
 
+  let str = Object.keys(c)[0]
+  document.getElementById("crn_id" +str.slice(-1)).value = c[str];
+}
 
 /* 
 Runs from here
@@ -121,5 +125,22 @@ if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckschd.p_get_crse_unsec") {
   console.log("Hid courses")
 } //Search Options Page
 else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwckgens.p_proc_term_date") {
-  addSelectAllButton();
+  addSelectAllButton(); 
+} //Course registration page 
+else if (URL == "https://ssb-prod.ec.conncoll.edu/PROD/bwskfreg.P_AltPin") {
+
+  let c = browser.storage.sync.get("c1");
+  c.then(setValue);
+
+  c = browser.storage.sync.get("c2");
+  c.then(setValue);
+
+  c = browser.storage.sync.get("c3");
+  c.then(setValue);
+
+  c = browser.storage.sync.get("c4");
+  c.then(setValue);
+  //todo this needs a toggle of some sort, or else it will happen repeatedly
+  document.getElementsByName("REG_BTN")[1].click()
+
 }
